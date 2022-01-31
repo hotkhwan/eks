@@ -11,6 +11,7 @@ pipeline {
                 dir("example") {
                     sh "pwd"
                 }
+                sh "ls -la ${pwd()}"
                 sh 'mvn -B -DskipTests clean package'
             }
         }
@@ -19,6 +20,7 @@ pipeline {
                 dir("example") {
                     sh "pwd"
                 }
+                sh "ls -la ${pwd()}"
                 sh 'mvn test'
             }
             post {
