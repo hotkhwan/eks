@@ -8,13 +8,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'cd example'
+                dir("example") {
+                    sh "pwd"
+                }
                 sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
             steps {
-                sh 'cd example'
+                dir("example") {
+                    sh "pwd"
+                }
                 sh 'mvn test'
             }
             post {
