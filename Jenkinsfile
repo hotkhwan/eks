@@ -10,18 +10,20 @@ pipeline {
             steps {
                 dir("example") {
                     sh "pwd"
+                    sh "ls -la ${pwd()}"
+                    sh 'mvn -B -DskipTests clean package'
                 }
-                sh "ls -la ${pwd()}"
-                sh 'mvn -B -DskipTests clean package'
+
             }
         }
         stage('Test') {
             steps {
                 dir("example") {
                     sh "pwd"
+                    sh "ls -la ${pwd()}"
+                    sh 'mvn test'
                 }
-                sh "ls -la ${pwd()}"
-                sh 'mvn test'
+
             }
             post {
                 always {
