@@ -6,39 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            steps {
-                // dir("example") {
-                //     sh "pwd"
-                //     sh "ls -la ${pwd()}"
-                //     sh 'mvn -B -DskipTests clean package'
-                // }
-                    sh "ls -la ${pwd()}"
-                    sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                // dir("example") {
-                //     sh "pwd"
-                //     sh "ls -la ${pwd()}"
-                    
-                // }
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
-        // stage('Build image') {
-        //     steps {
-        //         script {
-        //             dockerImage = docker.build("phayao/my-app")
-        //         }
-        //     }
-        // }
         stage('Docker Push image') {
             steps {
                 script {

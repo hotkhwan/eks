@@ -1,17 +1,27 @@
-# Use official base image of Java Runtim
-FROM openjdk:8-jdk-alpine
+### STAGE 1: Build ###
+FROM node:14.16.0-alpine as build
 
-# Set volume point to /tmp
-VOLUME /tmp
 
-# Make port 8080 available to the world outside container
-EXPOSE 8080
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# Set application's JAR file
-ARG JAR_FILE=target/simple-spring-restful-app-0.0.1-SNAPSHOT.jar
+# Install app dependencies
+COPY package.json /usr/src/app/
+#COPY yarn.lock /usr/src/app/
+RUN yarn install
 
-# Add the application's JAR file to the container
-ADD ${JAR_FILE} app.jar
+# Set environment variables
+ENV NODE_ENV production
+ENV NUXT_HOST 0.0.0.0
+ENV NUXT_PORT 80
 
-# Run the JAR file
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+# Bundle app source
+COPY . /usr/src/app
+RUN yarn build
+
+# Clear the cache
+RUN yarn cache clean
+
+EXPOSE 80
+CMD [ "yarn", "start" ]
