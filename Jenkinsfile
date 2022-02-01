@@ -14,7 +14,7 @@ pipeline {
 
 
 
-    // stages {
+    stages {
 
     //     // Building Docker images
     //     stage('Building image') {
@@ -49,3 +49,4 @@ pipeline {
         //     }
         // }
     }
+}
