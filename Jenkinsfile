@@ -14,34 +14,34 @@ pipeline {
 
 
 
-    stages {
+    // stages {
 
-        // Building Docker images
-        stage('Building image') {
-            steps{
-                script {
-                    dir("eks") {
-                        sh "ls -la ${pwd()}"
-                        dockerImage = docker.build '${IMAGE_REPO_NAME}:${IMAGE_TAG}'
-                    }
-                }
-            }
-        }
-    //     stage('Docker Push image') {
-    //         steps {
+    //     // Building Docker images
+    //     stage('Building image') {
+    //         steps{
     //             script {
     //                 dir("eks") {
-    //                      sh "ls -la ${pwd()}"
-    //                     docker.withRegistry(
-    //                     registry, 
-    //                     "ecr:ap-southeast-1:aws") {
-    //                     def eksImage = docker.build("eks")
-    //                     eksImage.push('1.0.0')
-    //                     }
+    //                     sh "ls -la ${pwd()}"
+    //                     dockerImage = docker.build '${IMAGE_REPO_NAME}:${IMAGE_TAG}'
     //                 }
     //             }
     //         }
     //     }
+        stage('Docker Push image') {
+            steps {
+                script {
+                    dir("eks") {
+                         sh "ls -la ${pwd()}"
+                        docker.withRegistry(
+                        registry, 
+                        "ecr:ap-southeast-1:aws") {
+                        def eksImage = docker.build("eks")
+                        // eksImage.push('1.0.0')
+                        }
+                    }
+                }
+            }
+        }
         // stage('Deployment') {
         //     steps {
         //         sh "ls -la ${pwd()}"
