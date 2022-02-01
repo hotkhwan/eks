@@ -7,7 +7,7 @@ pipeline {
         AWS_DEFAULT_REGION = "ap-southeast-1"
         IMAGE_REPO_NAME = "eck"
         IMAGE_TAG = "latest"
-        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+        REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
     }
 
 
