@@ -21,6 +21,7 @@ pipeline {
             steps{
                 script {
                     dir("eks") {
+                        sh "ls -la ${pwd()}"
                         dockerImage = docker.build '${IMAGE_REPO_NAME}:${IMAGE_TAG}'
                     }
                 }
@@ -43,6 +44,7 @@ pipeline {
     //     }
         stage('Deployment') {
             steps {
+                sh "ls -la ${pwd()}"
                 sh 'kubectl apply -f deployment.yml';
             }
         }
