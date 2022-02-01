@@ -12,7 +12,7 @@ pipeline {
                     dir("eks") {
                          sh "ls -la ${pwd()}"
                         docker.withRegistry(
-                        "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com", 
+                        registry, 
                         "ecr:ap-southeast-1:aws") {
                         def eksImage = docker.build("eks")
                         eksImage.push('1.0.0')
@@ -28,3 +28,12 @@ pipeline {
         // }
     }
 }
+
+    // Building Docker images
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry
+        }
+      }
+    }
