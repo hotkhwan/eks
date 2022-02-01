@@ -8,13 +8,14 @@ spec:
     app: nuxtjs
   ports:
   - protocol: TCP
-    port: 8080
-    targetPort: 8080
+    port: 80
+    targetPort: 80
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webservice
+  name: ntadmin
+  namespace: ntadmin
   labels:
     app: nuxtjs
 spec:
@@ -28,7 +29,7 @@ spec:
         app: nuxtjs
     spec:
       containers:
-      - name: nginx
-        image: 378537635200.dkr.ecr.ap-southeast-1.amazonaws.com/eck
+      - name: ntadmin
+        image: reg.pointit.co.th/ntadmin:1.0.1
         ports:
         - containerPort: 80
