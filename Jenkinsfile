@@ -42,11 +42,11 @@ pipeline {
     //             }
     //         }
     //     }
-        stage('Deployment') {
-            steps {
-                sh "ls -la ${pwd()}"
-                sh 'kubectl apply -f deployment.yml';
-            }
-        }
+        // stage('Deployment') {
+        //     steps {
+        //         sh "ls -la ${pwd()}"
+        //         sh 'kubectl apply -f deployment.yml';
+        //     }
+        // }
     }
 }

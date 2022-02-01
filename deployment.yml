@@ -33,3 +33,10 @@ spec:
         image: reg.pointit.co.th/ntadmin:1.0.1
         ports:
         - containerPort: 80
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: "0.5"
+          requests:
+            memory: 256Mi
+            cpu: "0.2"
