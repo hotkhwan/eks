@@ -29,8 +29,8 @@ spec:
         app: nuxtjs
     spec:
       containers:
-      - name: ntadmin
-        image: reg.pointit.co.th/ntadmin:1.0.1
+      - name: nuxtjs
+        image: 378537635200.dkr.ecr.ap-southeast-1.amazonaws.com/eck:latest
         ports:
         - containerPort: 80
         resources:
