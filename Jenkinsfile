@@ -9,7 +9,7 @@ pipeline {
         stage('Docker Push image') {
             steps {
                 script {
-                    dir("eks") {
+                    // dir("eks") {
                          sh "ls -la ${pwd()}"
                         docker.withRegistry(
                         "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com", 
@@ -17,7 +17,7 @@ pipeline {
                         def eksImage = docker.build("eks")
                         eksImage.push('1.0.0')
                         }
-                    }
+                    // }
                 }
             }
         }
