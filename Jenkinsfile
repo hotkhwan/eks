@@ -43,7 +43,7 @@ pipeline {
                 script {
                     dir("eks") {
                          sh "ls -la ${pwd()}"
-                         docker.withTool('default'){
+                         docker.withTool("default"){
                             sh "docker version"
                             docker.withRegistry("${REPOSITORY_URI}", "ecr:${AWS_DEFAULT_REGION}:aws") {
                                 echo "Login success"  
