@@ -39,7 +39,7 @@ pipeline {
                 script {
                     dir("eks") {
                          sh "ls -la ${pwd()}"
-                         docker.withTool('1.19'){
+                        //  docker.withTool('1.19'){
                             docker.withRegistry("${REPOSITORY_URI}", "ecr:${AWS_DEFAULT_REGION}:aws") {
                                 echo "Login success"  
                                 def eksImage = docker.build("${IMAGE_REPO_NAME}")
@@ -47,7 +47,7 @@ pipeline {
                                 eksImage.push("${IMAGE_TAG}")
                                 echo "Build Image Success"
                             }
-                        }   
+                        // }   
                     }
                 }
             }
