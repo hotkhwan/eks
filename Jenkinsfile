@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    tools {
+        // a bit ugly because there is no `@Symbol` annotation for the DockerTool
+        // see the discussion about this in PR 77 and PR 52: 
+        // https://github.com/jenkinsci/docker-commons-plugin/pull/77#discussion_r280910822
+        // https://github.com/jenkinsci/docker-commons-plugin/pull/52
+        'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '18.09'
+    }
+
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
         AWS_ACCOUNT_ID = "378537635200"
@@ -9,10 +17,6 @@ pipeline {
         IMAGE_TAG = "latest"
         REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
     }
-
-
-
-
 
     stages {
         //  stage('Logging into AWS ECR') {
@@ -37,6 +41,7 @@ pipeline {
         stage('Docker Push image') {
             steps {
                 script {
+                    sh "docker version"
                     dir("eks") {
                          sh "ls -la ${pwd()}"
                         //  docker.withTool('1.19'){
