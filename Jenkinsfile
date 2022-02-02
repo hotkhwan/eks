@@ -38,42 +38,42 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Docker Push image') {
-            steps {
-                script {
-                    dir("eks") {
-                        sh "ls -la ${pwd()}"
-                        sh "docker version"
-                        docker.withRegistry("${REPOSITORY_URI}", "ecr:${AWS_DEFAULT_REGION}:aws") {
-                            echo "Login success"  
-                            def eksImage = docker.build("${IMAGE_REPO_NAME}")
-                            echo eksImage
-                            eksImage.push("${IMAGE_TAG}")
-                            echo "Build Image Success"
-                        } 
-                    }
-                }
-            }
-        }
         // stage('Docker Push image') {
         //     steps {
         //         script {
         //             dir("eks") {
-        //                  sh "ls -la ${pwd()}"
-        //                  docker.withTool("default") { 
-        //                     sh "docker version"
-        //                     docker.withRegistry("${REPOSITORY_URI}", "ecr:${AWS_DEFAULT_REGION}:aws") {
-        //                         echo "Login success"  
-        //                         def eksImage = docker.build("${IMAGE_REPO_NAME}")
-        //                         echo eksImage
-        //                         eksImage.push("${IMAGE_TAG}")
-        //                         echo "Build Image Success"
-        //                     }
-        //                 }   
+        //                 sh "ls -la ${pwd()}"
+        //                 sh "docker version"
+        //                 docker.withRegistry("${REPOSITORY_URI}", "ecr:${AWS_DEFAULT_REGION}:aws") {
+        //                     echo "Login success"  
+        //                     def eksImage = docker.build("${IMAGE_REPO_NAME}")
+        //                     echo eksImage
+        //                     eksImage.push("${IMAGE_TAG}")
+        //                     echo "Build Image Success"
+        //                 } 
         //             }
         //         }
         //     }
         // }
+        stage('Docker Push image') {
+            steps {
+                script {
+                    dir("eks") {
+                         sh "ls -la ${pwd()}"
+                         docker.withTool("default") { 
+                            sh "docker version"
+                            docker.withRegistry("${REPOSITORY_URI}", "ecr:${AWS_DEFAULT_REGION}:aws") {
+                                echo "Login success"  
+                                def eksImage = docker.build("${IMAGE_REPO_NAME}")
+                                echo eksImage
+                                eksImage.push("${IMAGE_TAG}")
+                                echo "Build Image Success"
+                            }
+                        }   
+                    }
+                }
+            }
+        }
         // stage('Deployment') {
         //     steps {
         //         sh "ls -la ${pwd()}"
