@@ -28,12 +28,29 @@ pipeline {
         //     }
         // }
     //     // Building Docker images
-        stage('Building image') {
-            steps{
+        // stage('Building image') {
+        //     steps{
+        //         script {
+        //             dir("eks") {
+        //                 sh "ls -la ${pwd()}"
+        //                 dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+        //             }
+        //         }
+        //     }
+        // }
+        stage('Docker Push image') {
+            steps {
                 script {
                     dir("eks") {
                         sh "ls -la ${pwd()}"
-                        dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+                        sh "docker version"
+                        docker.withRegistry("${REPOSITORY_URI}", "ecr:${AWS_DEFAULT_REGION}:aws") {
+                            echo "Login success"  
+                            def eksImage = docker.build("${IMAGE_REPO_NAME}")
+                            echo eksImage
+                            eksImage.push("${IMAGE_TAG}")
+                            echo "Build Image Success"
+                        } 
                     }
                 }
             }
