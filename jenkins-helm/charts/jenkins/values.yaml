@@ -237,8 +237,15 @@ controller:
   installPlugins:
     - kubernetes:1.31.3
     - workflow-aggregator:2.6
-    - git:4.10.2
-    - configuration-as-code:1.55.1
+    - git:4.10.3
+    - configuration-as-code:1346.ve8cfa_3473c94
+    - aws-java-sdk:1.12.148-310.v5e3b_c2681d79
+    - amazon-ecr:1.7
+    - aws-global-configuration:1.7
+    - kubernetes-credentials-provider:0.20
+    - kubernetes-cli:1.10.3
+    - docker-plugin:1.2.6
+    - docker-commons:1.19
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: true
