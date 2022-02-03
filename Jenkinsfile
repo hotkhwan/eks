@@ -27,9 +27,7 @@ pipeline {
                     sh 'uptime'
                     sh 'curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator'
                     sh 'chmod +x ./aws-iam-authenticator'
-                    sh 'mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin'
-                    sh 'echo "export PATH=$PATH:$HOME/bin" >> ~/.bashrc'
-                    sh 'aws-iam-authenticator help'
+                    sh './aws-iam-authenticator help'
                     sh './kubectl get po'
                     }
                 }
