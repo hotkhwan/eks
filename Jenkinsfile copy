@@ -1,5 +1,11 @@
 pipeline {
-
+    agent {
+        kubernetes {
+        yamlFile 'build-agent.yaml'
+        defaultContainer 'jenkins-docker-client'
+        idleMinutes 1
+        }
+    }
 
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
@@ -11,13 +17,7 @@ pipeline {
     }
 
     stages {
-        agent { label 'agent-1'
-            kubernetes {
-            yamlFile 'build-agent.yaml'
-            defaultContainer 'jenkins-docker-client'
-            idleMinutes 1
-            }
-        }
+
         stage('Prepare Stage') {
             parallel {
                 stage('this runs in a pod') {
@@ -70,13 +70,13 @@ pipeline {
         //     }
         // }
         stage('Deployment') {
-            agent { label 'agent-2'
-                kubernetes {
-                yamlFile 'deployment.yaml'
-                defaultContainer 'python'
-                // idleMinutes 1
-                }
-            }
+            // agent {
+            //     kubernetes {
+            //     yamlFile 'deployment.yaml'
+            //     defaultContainer 'python'
+            //     // idleMinutes 1
+            //     }
+            // }
             parallel {
                 stage('this runs in a Production') {
                 steps {
