@@ -18,15 +18,15 @@ pipeline {
                 idleMinutes 1
                 }
             }
-            // parallel {
-            //     stage('this runs in a pod') {
-            steps {
-                container('jenkins-docker-client') {
-                sh 'uptime'
+            parallel {
+                stage('this runs in a pod') {
+                steps {
+                    container('jenkins-docker-client') {
+                    sh 'uptime'
+                    }
+                }
                 }
             }
-            //     }
-            // }
         }
 
         stage('Docker Build and Push image in to AWS') {
@@ -46,42 +46,24 @@ pipeline {
                 }
             }
         }
-        // stage('Docker Push image') {
-        //     steps {
-        //         script {
-        //             dir("eks") {
-        //                  sh "ls -la ${pwd()}"
-        //                  docker.withTool("default") { 
-        //                     sh "docker version"
-        //                     docker.withRegistry("${REPOSITORY_URI}", "ecr:${AWS_DEFAULT_REGION}:aws") {
-        //                         echo "Login success"  
-        //                         def eksImage = docker.build("${IMAGE_REPO_NAME}")
-        //                         echo eksImage
-        //                         eksImage.push("${IMAGE_TAG}")
-        //                         echo "Build Image Success"
-        //                     }
-        //                 }   
-        //             }
-        //         }
-        //     }
-        // }
+
         stage('Deployment') {
             agent { 
                 kubernetes {
                 yamlFile 'deployment.yaml'
                 defaultContainer 'python'
-                // idleMinutes 1
+                idleMinutes 1
                 }
             }
-            // parallel {
-            //     stage('this runs in a Production') {
+            parallel {
+                stage('this runs in a Production') {
                     steps {
                         container('python') {
                         sh 'uptime'
                         }
                     }
-            //     }
-            // }
+                }
+            }
         }
         // stage('Deployment') {
         //     steps {
