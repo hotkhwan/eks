@@ -1,28 +1,27 @@
-FROM node:14.16.0-alpine
+### STAGE 1: Build ###
+FROM node:14.16.0-alpine as build
 
-# create destination directory
-RUN mkdir -p /usr/src/nuxt-app
-WORKDIR /usr/src/nuxt-app
 
-# update and install dependency
-# RUN apk update && apk upgrade
-# RUN apk add git
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# copy the app, note .dockerignore
-COPY . /usr/src/nuxt-app/
-RUN npm install
+# Install app dependencies
+COPY package.json /usr/src/app/
+#COPY yarn.lock /usr/src/app/
+RUN yarn install
 
-# build necessary, even if no static files are needed,
-# since it builds the server as well
-RUN npm run build
+# Set environment variables
+ENV NODE_ENV production
+ENV NUXT_HOST 0.0.0.0
+ENV NUXT_PORT 80
 
-# expose 5000 on container
-EXPOSE 5000
+# Bundle app source
+COPY . /usr/src/app
+RUN yarn build
 
-# set app serving to permissive / assigned
-ENV NUXT_HOST=0.0.0.0
-# set app port
-ENV NUXT_PORT=5000
+# Clear the cache
+RUN yarn cache clean
 
-# start the app
-CMD [ "npm", "start" ]
+EXPOSE 80
+CMD [ "yarn", "start" ]
