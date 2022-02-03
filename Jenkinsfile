@@ -34,6 +34,7 @@ pipeline {
                         dir("eks") {
                             sh "ls -la ${pwd()}"
                             sh "docker version"
+                            sh "systemctl status docker"
                             docker.withRegistry("${REPOSITORY_URI}", "ecr:${AWS_DEFAULT_REGION}:aws") {
                                 echo "Login success"  
                                 def eksImage = docker.build("${IMAGE_REPO_NAME}")

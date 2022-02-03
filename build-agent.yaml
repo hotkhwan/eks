@@ -17,3 +17,12 @@ spec:
         requests:
           memory: 256Mi
           cpu: "0.2"
+      volumeMounts:
+        # directory location on Docker
+      - mountPath: /var/run/docker.sock
+        name: docker
+  volumes:
+  - name: docker
+    hostPath:
+      # directory location on host
+      path: /var/run/docker.sock
