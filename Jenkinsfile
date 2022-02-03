@@ -1,81 +1,78 @@
-podTemplate {
-    node(default) {
-        pipeline {
-            agent {
-                kubernetes {
-                yamlFile 'build-agent.yaml'
-                defaultContainer 'jenkins-docker-client'
-                idleMinutes 1
-                }
-            }
-            environment {
-                registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
-                AWS_ACCOUNT_ID = "378537635200"
-                AWS_DEFAULT_REGION = "ap-southeast-1"
-                IMAGE_REPO_NAME = "eks"
-                IMAGE_TAG = "latest"
-                REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-            }
 
-            stages {
-                stage('Prepare Stage') {
-                    parallel {
-                        stage('this runs in a pod') {
-                        steps {
-                            container('jenkins-docker-client') {
-                            sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
-                            sh 'chmod u+x ./kubectl'  
-                            sh 'uptime'
-                            sh 'curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator'
-                            sh 'chmod +x ./aws-iam-authenticator'
-                            sh 'mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin'
-                            sh 'echo "export PATH=$PATH:$HOME/bin" >> ~/.bashrc'
-                            sh 'aws-iam-authenticator help'
-                            sh './kubectl get po'
-                            }
-                        }
-                        }
-                    }
-                }
-
-                stage('Docker Build and Push image in to AWS') {
-                    steps {
-                        script {
-                            dir("eks") {
-                                sh "ls -la ${pwd()}"
-                                sh "docker version"
-                                docker.withRegistry(
-                                    "${REPOSITORY_URI}", 
-                                    "ecr:${AWS_DEFAULT_REGION}:aws") { 
-                                    def eksImage = docker.build("${IMAGE_REPO_NAME}")
-                                    eksImage.push("${IMAGE_TAG}")
-                                    echo "Build Image Success"
-                                } 
-                            }
-                        }
-                    }
-                }
-
-                stage('Deployment') {
-                    steps {
-                        // container('python') {
-                        sh './kubectl apply -f deployment.yml'
-                        // }
-                    }
-                }
-                // stage('Deployment') {
-                //     steps {
-                //         sh "ls -la ${pwd()}"
-                //         withKubeConfig([credentialsId: 'eks']) {
-                //             // sh './kubectl get pods'
-                //             sh './kubectl apply -f deployment.yml'
-                //         }
-                //     }
-                // }
-            }
-            
+pipeline {
+    agent {
+        kubernetes {
+        yamlFile 'build-agent.yaml'
+        defaultContainer 'jenkins-docker-client'
+        idleMinutes 1
         }
     }
+    environment {
+        registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
+        AWS_ACCOUNT_ID = "378537635200"
+        AWS_DEFAULT_REGION = "ap-southeast-1"
+        IMAGE_REPO_NAME = "eks"
+        IMAGE_TAG = "latest"
+        REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+    }
+
+    stages {
+        stage('Prepare Stage') {
+            parallel {
+                stage('this runs in a pod') {
+                steps {
+                    container('jenkins-docker-client') {
+                    sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+                    sh 'chmod u+x ./kubectl'  
+                    sh 'uptime'
+                    sh 'curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator'
+                    sh 'chmod +x ./aws-iam-authenticator'
+                    sh 'mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin'
+                    sh 'echo "export PATH=$PATH:$HOME/bin" >> ~/.bashrc'
+                    sh 'aws-iam-authenticator help'
+                    sh './kubectl get po'
+                    }
+                }
+                }
+            }
+        }
+
+        stage('Docker Build and Push image in to AWS') {
+            steps {
+                script {
+                    dir("eks") {
+                        sh "ls -la ${pwd()}"
+                        sh "docker version"
+                        docker.withRegistry(
+                            "${REPOSITORY_URI}", 
+                            "ecr:${AWS_DEFAULT_REGION}:aws") { 
+                            def eksImage = docker.build("${IMAGE_REPO_NAME}")
+                            eksImage.push("${IMAGE_TAG}")
+                            echo "Build Image Success"
+                        } 
+                    }
+                }
+            }
+        }
+
+        stage('Deployment') {
+            steps {
+                // container('python') {
+                sh './kubectl apply -f deployment.yml'
+                // }
+            }
+        }
+        // stage('Deployment') {
+        //     steps {
+        //         sh "ls -la ${pwd()}"
+        //         withKubeConfig([credentialsId: 'eks']) {
+        //             // sh './kubectl get pods'
+        //             sh './kubectl apply -f deployment.yml'
+        //         }
+        //     }
+        // }
+    }
+    
 }
 
 // pipeline {
