@@ -4,8 +4,8 @@ pipeline {
         yamlFile 'build-agent.yaml'
         defaultContainer 'jenkins-docker-client'
         idleMinutes 1
-        },
-        kubernetes {
+        }
+        app {
         yamlFile 'deployment.yaml'
         defaultContainer 'python'
         },
