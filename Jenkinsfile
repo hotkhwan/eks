@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
         yamlFile 'build-agent.yaml'
-        defaultContainer 'alpine'
+        defaultContainer 'jenkins-docker-client'
         idleMinutes 1
         }
     }
@@ -18,17 +18,17 @@ pipeline {
 
     stages {
 
-        stage('Sample Stage') {
+        stage('Prepare Stage') {
         parallel {
             stage('this runs in a pod') {
             steps {
-                container('alpine') {
+                container('jenkins-docker-client') {
                 sh 'uptime'
                 }
             }
             }
 
-            stage('Docker Push image') {
+            stage('Docker Build and Push image in to AWS') {
                 steps {
                     script {
                         dir("eks") {
