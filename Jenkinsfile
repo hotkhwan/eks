@@ -4,7 +4,11 @@ pipeline {
         yamlFile 'build-agent.yaml'
         defaultContainer 'jenkins-docker-client'
         idleMinutes 1
-        }
+        },
+        apps {
+        yamlFile 'deployment.yaml'
+        defaultContainer 'python'
+        },
     }
 
     environment {
@@ -70,15 +74,26 @@ pipeline {
         //     }
         // }
         stage('Deployment') {
-            steps {
-                sh "ls -la ${pwd()}"
-                withKubeConfig([credentialsId: 'kubernetes-config']) {
-                    sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
-                    sh 'chmod u+x ./kubectl'  
-                    sh './kubectl get pods'
-                    sh './kubectl apply -f deployment.yml'
+            parallel {
+                stage('this runs in a Production') {
+                steps {
+                    container('python') {
+                    sh 'uptime'
+                    }
+                }
                 }
             }
         }
+        // stage('Deployment') {
+        //     steps {
+        //         sh "ls -la ${pwd()}"
+        //         withKubeConfig([credentialsId: 'kubernetes-config']) {
+        //             sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+        //             sh 'chmod u+x ./kubectl'  
+        //             sh './kubectl get pods'
+        //             sh './kubectl apply -f deployment.yml'
+        //         }
+        //     }
+        // }
     }
 }
