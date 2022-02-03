@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
         yamlFile 'build-agent.yaml'
-        defaultContainer 'jenkins-docker-client'
+        defaultContainer 'default'
         idleMinutes 1
         }
     }
