@@ -39,20 +39,14 @@ pipeline {
                     dir("eks") {
                         sh "ls -la ${pwd()}"
                         sh "docker version"
-                        // docker.withRegistry(
-                        //     "${REPOSITORY_URI}", 
-                        //     "ecr:${AWS_DEFAULT_REGION}:aws") {
-                        //     echo "Login success"  
-                        //     def eksImage = docker.build("${IMAGE_REPO_NAME}")
-                        //     echo eksImage
-                        //     eksImage.push("${IMAGE_TAG}")
-                        //     echo "Build Image Success"
-                        docker.withRegistry("https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com", "ecr.ap-southeast-1.aws") {
-
-                        def customImage = docker.build("my-image:latest")
-
-                        /* Push the container to the custom Registry */
-                        customImage.push()
+                        docker.withRegistry(
+                            "${REPOSITORY_URI}", 
+                            "ecr:${AWS_DEFAULT_REGION}:aws") {
+                            echo "Login success"  
+                            def eksImage = docker.build("${IMAGE_REPO_NAME}")
+                            echo eksImage
+                            eksImage.push("${IMAGE_TAG}")
+                            echo "Build Image Success"
                         } 
                     }
                 }
