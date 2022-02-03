@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json /usr/src/app/
 #COPY yarn.lock /usr/src/app/
-RUN yarn install
+RUN npm install
 
 # Set environment variables
 ENV NODE_ENV production
@@ -18,10 +18,10 @@ ENV NUXT_PORT 80
 
 # Bundle app source
 COPY . /usr/src/app
-RUN yarn build
+RUN npm run build
 
 # Clear the cache
-RUN yarn cache clean
+# RUN npm cache clean
 
 EXPOSE 80
-CMD [ "yarn", "start" ]
+CMD [ "npm", "start" ]
