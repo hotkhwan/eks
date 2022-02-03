@@ -1,27 +1,6 @@
-### STAGE 1: Build ###
-FROM node:14.16.0-alpine as build
-
-
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-# Install app dependencies
-COPY package.json /usr/src/app/
-#COPY yarn.lock /usr/src/app/
-RUN yarn install
-
-# Set environment variables
-ENV NODE_ENV production
-ENV NUXT_HOST 0.0.0.0
-ENV NUXT_PORT 80
-
-# Bundle app source
-COPY . /usr/src/app
-RUN yarn build
-
-# Clear the cache
-RUN yarn cache clean
-
-EXPOSE 80
-CMD [ "yarn", "start" ]
+FROM python:3.6
+COPY . /app
+WORKDIR /app
+# RUN pip install -r requirements.txt
+ENTRYPOINT ["python"]
+CMD ["app.py"]
