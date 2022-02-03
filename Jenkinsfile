@@ -5,10 +5,10 @@ pipeline {
         defaultContainer 'jenkins-docker-client'
         idleMinutes 1
         }
-        // app {
-        // yamlFile 'deployment.yaml'
-        // defaultContainer 'python'
-        // }
+        app {
+        yamlFile 'deployment.yaml'
+        defaultContainer 'python'
+        }
     }
 
     environment {
