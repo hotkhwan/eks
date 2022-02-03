@@ -67,7 +67,7 @@ pipeline {
         stage('Deployment') {
             steps {
                 sh "ls -la ${pwd()}"
-                withKubeConfig([credentialsId: 'kubernetes-config']) {
+                withKubeConfig([credentialsId: 'EKS']) {
                     sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
                     sh 'chmod u+x ./kubectl'  
                     sh './kubectl get pods'
