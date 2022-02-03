@@ -31,9 +31,12 @@ pipeline {
                         sh 'unzip awscliv2.zip'
                         sh './aws/install'
                         sh 'aws --version'
-                        // withKubeConfig([credentialsId: 'eks']) {
-                        //     sh './kubectl get pods'
-                        //     }   
+                        sh 'aws sts get-caller-identity'
+                        sh 'aws configure set aws_access_key_id AKIAVQIUZ5WAEGCJ53VJ; aws configure set aws_secret_access_key 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; aws configure set default.region ap-southeast-1 aws configure set output "json"'
+                        sh 'aws sts get-caller-identity'
+                        withKubeConfig([credentialsId: 'eks']) {
+                            sh './kubectl get pods'
+                            }   
                         }
                     }
                 }
