@@ -21,6 +21,8 @@ pipeline {
                 stage('this runs in a pod') {
                 steps {
                     container('jenkins-docker-client') {
+                    sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+                    sh 'chmod u+x ./kubectl'  
                     sh 'uptime'
                     }
                 }
@@ -64,8 +66,6 @@ pipeline {
             steps {
                 sh "ls -la ${pwd()}"
                 withKubeConfig([credentialsId: 'eks']) {
-                    sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
-                    sh 'chmod u+x ./kubectl'  
                     // sh './kubectl get pods'
                     sh './kubectl apply -f deployment.yml'
                 }
