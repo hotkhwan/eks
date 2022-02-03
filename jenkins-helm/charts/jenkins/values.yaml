@@ -245,6 +245,7 @@ controller:
     - kubernetes-cli:1.10.3
     - docker-plugin:1.2.6
     - docker-commons:1.19
+    - docker-workflow:1.28
 
   # Set to false to download the minimum required version of all dependencies.
   installLatestPlugins: true
