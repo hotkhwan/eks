@@ -20,17 +20,19 @@ pipeline {
         stage('Prepare Stage') {
             parallel {
                 stage('this runs in a pod') {
-                steps {
-                    container('jenkins-docker-client') {
-                    sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
-                    sh 'chmod u+x ./kubectl'  
-                    sh 'uptime'
-                    sh 'curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator'
-                    sh 'chmod +x ./aws-iam-authenticator'
-                    sh './aws-iam-authenticator help'
-                    sh './kubectl get po'
+                    steps {
+                        container('jenkins-docker-client') {
+                        sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+                        sh 'chmod u+x ./kubectl'  
+                        sh 'uptime'
+                        sh 'curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator'
+                        sh 'chmod +x ./aws-iam-authenticator'
+                        sh './aws-iam-authenticator help'
+                        withKubeConfig([credentialsId: 'eks']) {
+                            sh './kubectl get pods'
+                            }   
+                        }
                     }
-                }
                 }
             }
         }
@@ -53,22 +55,22 @@ pipeline {
             }
         }
 
-        stage('Deployment') {
-            steps {
-                // container('python') {
-                sh './kubectl apply -f deployment.yml'
-                // }
-            }
-        }
         // stage('Deployment') {
         //     steps {
-        //         sh "ls -la ${pwd()}"
-        //         withKubeConfig([credentialsId: 'eks']) {
-        //             // sh './kubectl get pods'
-        //             sh './kubectl apply -f deployment.yml'
-        //         }
+        //         // container('python') {
+        //         sh './kubectl apply -f deployment.yml'
+        //         // }
         //     }
         // }
+        stage('Deployment') {
+            steps {
+                sh "ls -la ${pwd()}"
+                withKubeConfig([credentialsId: 'eks']) {
+                    // sh './kubectl get pods'
+                    sh './kubectl apply -f deployment.yml'
+                }
+            }
+        }
     }
     
 }
