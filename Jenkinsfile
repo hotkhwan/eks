@@ -2,7 +2,7 @@ pipeline {
     agent {
         kubernetes {
         yamlFile 'build-agent.yaml'
-        defaultContainer 'default'
+        defaultContainer 'jenkins-docker-client'
         idleMinutes 1
         }
     }
@@ -20,7 +20,7 @@ pipeline {
             parallel {
                 stage('this runs in a pod') {
                 steps {
-                    container('default') {
+                    container('jenkins-docker-client') {
                     sh 'uptime'
                     }
                 }
@@ -46,35 +46,35 @@ pipeline {
             }
         }
 
+        stage('Deployment') {
+            agent { 
+                kubernetes {
+                yamlFile 'deployment.yaml'
+                defaultContainer 'python'
+                idleMinutes 1
+                }
+            }
+            // parallel {
+            //     stage('this runs in a Production') {
+                    steps {
+                        container('python') {
+                        sh 'uptime'
+                        }
+                    }
+            //     }
+            // }
+        }
         // stage('Deployment') {
-        //     agent { 
-        //         kubernetes {
-        //         yamlFile 'deployment.yaml'
-        //         defaultContainer 'python'
-        //         idleMinutes 1
-        //         }
-        //     }
-        //     parallel {
-        //         stage('this runs in a Production') {
-        //             steps {
-        //                 container('python') {
-        //                 sh 'uptime'
-        //                 }
-        //             }
+        //     steps {
+        //         sh "ls -la ${pwd()}"
+        //         withKubeConfig([credentialsId: 'EKS']) {
+        //             sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+        //             sh 'chmod u+x ./kubectl'  
+        //             sh './kubectl get pods'
+        //             sh './kubectl apply -f deployment.yml'
         //         }
         //     }
         // }
-        stage('Deployment') {
-            steps {
-                sh "ls -la ${pwd()}"
-                withKubeConfig([credentialsId: 'EKS']) {
-                    sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
-                    sh 'chmod u+x ./kubectl'  
-                    sh './kubectl get pods'
-                    sh './kubectl apply -f deployment.yml'
-                }
-            }
-        }
     }
     
 }
