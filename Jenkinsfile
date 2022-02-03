@@ -5,7 +5,7 @@ pipeline {
         defaultContainer 'jenkins-docker-client'
         idleMinutes 1
         },
-        apps {
+        kubernetes {
         yamlFile 'deployment.yaml'
         defaultContainer 'python'
         },
@@ -94,6 +94,6 @@ pipeline {
         //             sh './kubectl apply -f deployment.yml'
         //         }
         //     }
-        // }
     }
+    
 }
