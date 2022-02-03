@@ -8,7 +8,7 @@ pipeline {
         app {
         yamlFile 'deployment.yaml'
         defaultContainer 'python'
-        },
+        }
     }
 
     environment {
