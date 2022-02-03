@@ -242,7 +242,6 @@ controller:
     - aws-java-sdk:1.12.148-310.v5e3b_c2681d79
     - amazon-ecr:1.7
     - aws-global-configuration:1.7
-    - kubernetes-credentials-provider:0.20
     - kubernetes-cli:1.10.3
     - docker-plugin:1.2.6
     - docker-commons:1.19
@@ -625,11 +624,11 @@ agent:
   # Allowed types are: ConfigMap, EmptyDir, HostPath, Nfs, PVC, Secret
   # Configure the attributes as they appear in the corresponding Java class for that type
   # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes
-  volumes: []
-  # - type: HostPath
-  #   volumeName: docker-sock
-  #   hostPath: /var/run/docker.sock
-  #   mountPath: /var/run/docker.sock
+  volumes:
+  - type: HostPath
+    volumeName: docker-sock
+    hostPath: /var/run/docker.sock
+    mountPath: /var/run/docker.sock
   # - type: ConfigMap
   #   configMapName: myconfigmap
   #   mountPath: /var/myapp/myconfigmap
@@ -745,23 +744,23 @@ agent:
 
 # Here you can add additional agents
 # They inherit all values from `agent` so you only need to specify values which differ
-additionalAgents:
- maven:
-   podName: maven
-   customJenkinsLabels: maven
-   # An example of overriding the jnlp container
-   # sideContainerName: jnlp
-   image: jenkins/jnlp-agent-maven
-   tag: latest
- python:
-   podName: python
-   customJenkinsLabels: python
-   sideContainerName: python
-   image: python
-   tag: "3"
-   command: "/bin/sh -c"
-   args: "cat"
-   TTYEnabled: true
+additionalAgents: {}
+#  maven:
+#    podName: maven
+#    customJenkinsLabels: maven
+#    # An example of overriding the jnlp container
+#    # sideContainerName: jnlp
+#    image: jenkins/jnlp-agent-maven
+#    tag: latest
+#  python:
+#    podName: python
+#    customJenkinsLabels: python
+#    sideContainerName: python
+#    image: python
+#    tag: "3"
+#    command: "/bin/sh -c"
+#    args: "cat"
+#    TTYEnabled: true
 
 persistence:
   enabled: true
