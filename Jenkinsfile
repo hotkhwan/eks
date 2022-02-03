@@ -43,7 +43,7 @@ pipeline {
                                 //     echo eksImage
                                 //     eksImage.push("${IMAGE_TAG}")
                                 //     echo "Build Image Success"
-                                docker.withRegistry('https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com/eks', 'ecr.ap-southeast-1.aws') {
+                                docker.withRegistry('https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr.ap-southeast-1.aws') {
 
                                 def customImage = docker.build("my-image:latest")
 
