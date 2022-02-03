@@ -27,6 +27,9 @@ pipeline {
                         sh 'curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator'
                         sh 'chmod +x ./aws-iam-authenticator'
                         sh './aws-iam-authenticator help'
+                        sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
+                        sh 'unzip awscliv2.zip'
+                        sh './aws/install'
                         sh 'aws --version'
                         // withKubeConfig([credentialsId: 'eks']) {
                         //     sh './kubectl get pods'
