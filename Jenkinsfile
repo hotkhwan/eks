@@ -1,5 +1,11 @@
 pipeline {
-    agent none
+    agent {
+        kubernetes {
+        yamlFile 'build-agent.yaml'
+        defaultContainer 'jenkins-docker-client'
+        idleMinutes 1
+        }
+    }
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
         AWS_ACCOUNT_ID = "378537635200"
@@ -11,13 +17,6 @@ pipeline {
 
     stages {
         stage('Prepare Stage') {
-            agent {
-                kubernetes {
-                yamlFile 'build-agent.yaml'
-                defaultContainer 'jenkins-docker-client'
-                idleMinutes 1
-                }
-            }
             parallel {
                 stage('this runs in a pod') {
                 steps {
