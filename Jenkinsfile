@@ -63,6 +63,9 @@ pipeline {
         stage('Deployment') {
             steps {
                 sh "ls -la ${pwd()}"
+                docker.withRegistry(
+                    "${REPOSITORY_URI}", 
+                    "ecr:${AWS_DEFAULT_REGION}:aws")
                 withKubeConfig([credentialsId: 'eks']) {
                     sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
                     sh 'chmod u+x ./kubectl'  
