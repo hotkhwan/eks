@@ -8,6 +8,8 @@ pipeline {
     }
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
+        aws_access_key_id = "AKIAVQIUZ5WAEGCJ53VJ"
+        aws_secret_access_key = "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"
         AWS_ACCOUNT_ID = "378537635200"
         AWS_DEFAULT_REGION = "ap-southeast-1"
         IMAGE_REPO_NAME = "eks"
@@ -32,7 +34,7 @@ pipeline {
                         sh './aws/install'
                         sh 'aws --version'
                         sh 'aws sts get-caller-identity'
-                        sh 'aws configure set aws_access_key_id AKIAVQIUZ5WAEGCJ53VJ; aws configure set aws_secret_access_key 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; aws configure set default.region ap-southeast-1 aws configure set output "json"'
+                        sh "aws configure set aws_access_key_id ${aws_access_key_id}; aws configure set aws_secret_access_key ${aws_secret_access_key}; aws configure set default.region ${AWS_DEFAULT_REGION}; aws configure set output 'json'"
                         sh 'aws sts get-caller-identity'
                         withKubeConfig([credentialsId: 'eks']) {
                             sh './kubectl get pods'
