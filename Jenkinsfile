@@ -20,7 +20,7 @@ pipeline {
             parallel {
                 stage('this runs in a pod') {
                 steps {
-                    container('jenkins-docker-client') {
+                    container('default') {
                     sh 'uptime'
                     }
                 }
