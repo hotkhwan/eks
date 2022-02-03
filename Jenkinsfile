@@ -1,6 +1,5 @@
 pipeline {
-
-
+    agent none
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
         AWS_ACCOUNT_ID = "378537635200"
@@ -11,27 +10,24 @@ pipeline {
     }
 
     stages {
-        agent { label 'agent-1'
-            kubernetes {
-            yamlFile 'build-agent.yaml'
-            defaultContainer 'jenkins-docker-client'
-            idleMinutes 1
-            }
-        }
         stage('Prepare Stage') {
+            agent {
+                kubernetes {
+                yamlFile 'build-agent.yaml'
+                defaultContainer 'jenkins-docker-client'
+                idleMinutes 1
+                }
+            }
             parallel {
                 stage('this runs in a pod') {
-                steps {
-                    container('jenkins-docker-client') {
-                    sh 'uptime'
+                    steps {
+                        container('jenkins-docker-client') {
+                        sh 'uptime'
+                        }
                     }
                 }
-                }
-
-
             }
         }
-
 
         stage('Docker Build and Push image in to AWS') {
             steps {
@@ -70,7 +66,7 @@ pipeline {
         //     }
         // }
         stage('Deployment') {
-            agent { label 'agent-2'
+            agent { 
                 kubernetes {
                 yamlFile 'deployment.yaml'
                 defaultContainer 'python'
@@ -79,11 +75,11 @@ pipeline {
             }
             parallel {
                 stage('this runs in a Production') {
-                steps {
-                    container('python') {
-                    sh 'uptime'
+                    steps {
+                        container('python') {
+                        sh 'uptime'
+                        }
                     }
-                }
                 }
             }
         }
