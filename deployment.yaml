@@ -1,41 +1,16 @@
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: FrontEnd
-# spec:
-#   type: LoadBalancer
-#   selector:
-#     app: nuxtjs
-#   ports:
-#   - protocol: TCP
-#     port: 80
-#     targetPort: 5000
-# ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
-  name: python
   labels:
     app: python
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: python
-  template:
-    metadata:
-      labels:
-        app: python
-    spec:
-      containers:
-      - name: python
-        image: 378537635200.dkr.ecr.ap-southeast-1.amazonaws.com/eck:latest
-        ports:
-        - containerPort: 80
-        resources:
-          limits:
-            memory: 512Mi
-            cpu: "0.5"
-          requests:
-            memory: 256Mi
-            cpu: "0.2"
+  containers:
+    - name: python
+      image: python
+      resources:
+        limits:
+          memory: 512Mi
+          cpu: "1"
+        requests:
+          memory: 256Mi
+          cpu: "0.2"
