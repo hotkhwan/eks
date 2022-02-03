@@ -1,6 +1,6 @@
 FROM python:3.6
 COPY . /app
 WORKDIR /app
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --user
 ENTRYPOINT ["python"]
 CMD ["app.py"]
