@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json /usr/src/app/
 #COPY yarn.lock /usr/src/app/
-RUN yarn install
+RUN yarn install --offline
 
 # Set environment variables
 ENV NODE_ENV production
