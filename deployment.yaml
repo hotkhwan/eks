@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: python
-      image: python
+      image: trion/jenkins-docker-client
       resources:
         limits:
           memory: 512Mi
