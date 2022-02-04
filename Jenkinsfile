@@ -1,9 +1,9 @@
 pipeline {
-    agent {
-        kubernetes {
-        inheritFrom  "default"
-        }
-    }
+    // agent {
+    //     kubernetes {
+    //     inheritFrom  "default"
+    //     }
+    // }
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
         aws_access_key_id = "AKIAVQIUZ5WAEGCJ53VJ"
