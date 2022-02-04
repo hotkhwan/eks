@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-        label 'jenkins'
+        inheritFrom  "jenkins"
         }
     }
     environment {
