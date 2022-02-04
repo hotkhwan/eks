@@ -1,12 +1,11 @@
 pipeline {
-    agent any
-    // {
-    //     kubernetes {
-    //     yamlFile 'build-agent.yaml'
-    //     defaultContainer 'jenkins-agent'
-    //     idleMinutes 1
-    //     }
-    // }
+    agent {
+        kubernetes {
+        yamlFile 'build-agent.yaml'
+        defaultContainer 'jenkins-agent'
+        idleMinutes 1
+        }
+    }
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
         aws_access_key_id = "AKIAVQIUZ5WAEGCJ53VJ"
@@ -38,12 +37,11 @@ pipeline {
                         // sh "aws configure set aws_access_key_id ${aws_access_key_id}; aws configure set aws_secret_access_key ${aws_secret_access_key}; aws configure set default.region ${AWS_DEFAULT_REGION}; aws configure set output 'json'"
                         // sh 'aws sts get-caller-identity'
                         // withKubeConfig([credentialsId: 'eks']) {
-                            
                             sh './kubectl get pods'
                             sh './kubectl apply -f deployment.yaml'
                             // }   
-                        }
-                    // }
+                        // }
+                    }
                 }
             }
         }
