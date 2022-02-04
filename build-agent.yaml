@@ -6,8 +6,8 @@ metadata:
 spec:
   containers:
     - name: jenkins-agent
-      # image: trion/jenkins-docker-client
-      image: reg.pointit.co.th/jenkins-agent:2.0.0
+      image: trion/jenkins-docker-client
+      # image: reg.pointit.co.th/jenkins-agent:2.0.0
       command:
         - cat
       tty: true
