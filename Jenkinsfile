@@ -33,45 +33,32 @@ pipeline {
                         container('jenkins-agent') {
                         sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl"'  
                         sh 'chmod u+x ./kubectl'  
-                        // sh 'uptime'
-                        // sh 'curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator'
-                        // sh 'chmod +x ./aws-iam-authenticator'
-                        // sh './aws-iam-authenticator help'
-                        // sh 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"'
-                        // sh 'unzip awscliv2.zip'
-                        // sh './aws/install'
-                        // sh 'aws --version'
-                        // sh 'aws sts get-caller-identity'
-                        // sh "aws configure set aws_access_key_id ${aws_access_key_id}; aws configure set aws_secret_access_key ${aws_secret_access_key}; aws configure set default.region ${AWS_DEFAULT_REGION}; aws configure set output 'json'"
-                        // sh 'aws sts get-caller-identity'
-                        // withKubeConfig([credentialsId: 'eks']) {
-                            // sh './kubectl create clusterrolebinding jenkinsrolebinding --clusterrole=cluster-admin --group=system:serviceaccounts:jenkins'
-                            sh './kubectl get pods'
-                            sh './kubectl apply -f deployment.yaml'
-                            // }   
+                        sh './kubectl get pods'
+                        sh './kubectl apply -f deployment.yaml'  
                         }
                     }
                 }
             }
         }
 
-        // stage('Docker Build and Push image in to AWS') {
-        //     steps {
-        //         script {
-        //             dir("eks") {
-        //                 sh "ls -la ${pwd()}"
-        //                 sh "docker version"
-        //                 docker.withRegistry(
-        //                     "${REPOSITORY_URI}", 
-        //                     "ecr:${AWS_DEFAULT_REGION}:aws") { 
-        //                     def eksImage = docker.build("${IMAGE_REPO_NAME}")
-        //                     eksImage.push("${IMAGE_TAG}")
-        //                     echo "Build Image Success"
-        //                 } 
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Docker Build and Push image in to AWS') {
+            steps {
+                script {
+                    dir("eks") {
+                        sh "ls -la ${pwd()}"
+                        sh "docker version"
+                        docker.withRegistry(
+                            "${REPOSITORY_URI}", 
+                            "ecr:${AWS_DEFAULT_REGION}:aws") { 
+                            def eksImage = docker.build("${IMAGE_REPO_NAME}")
+                            eksImage.push("${IMAGE_TAG}")
+                            echo "Build Image Success"
+                        } 
+                    }
+                }
+            }
+        }
+
 
         stage('Deployment') {
             steps {
@@ -82,40 +69,6 @@ pipeline {
                 sh './kubectl apply -f deployment.yaml'
             }
         }
-
-        // stage('Deployment') {
-        //     steps {
-        //         sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl"'  
-        //         sh 'chmod u+x ./kubectl'  
-        //         sh "ls -la ${pwd()}"
-        //         withKubeConfig([credentialsId: 'eks']) {
-        //             // sh './kubectl get pods'
-        //             sh './kubectl apply -f deployment.yaml'
-        //         }
-        //     }
-        // }
     }
     
 }
-
-// pipeline {
-//     agent none
-//     stages {
-//         stage('Back-end') {
-//             agent {
-//                 docker { image 'maven:3.8.1-adoptopenjdk-11' }
-//             }
-//             steps {
-//                 sh 'mvn --version'
-//             }
-//         }
-//         stage('Front-end') {
-//             agent {
-//                 docker { image 'node:16.13.1-alpine' }
-//             }
-//             steps {
-//                 sh 'node --version'
-//             }
-//         }
-//     }
-// }
