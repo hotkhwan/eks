@@ -1,11 +1,11 @@
 pipeline {
-    agent {
-        kubernetes {
-        yamlFile 'build-agent.yaml'
-        defaultContainer 'jenkins-agent'
-        idleMinutes 1
-        }
-    }
+    // agent {
+    //     kubernetes {
+    //     yamlFile 'build-agent.yaml'
+    //     defaultContainer 'jenkins-agent'
+    //     idleMinutes 1
+    //     }
+    // }
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
         aws_access_key_id = "AKIAVQIUZ5WAEGCJ53VJ"
@@ -70,7 +70,7 @@ pipeline {
                 sh 'chmod u+x ./kubectl'  
                 sh "ls -la ${pwd()}"
                 // sh './kubectl get pods'
-                sh './kubectl apply -f deployment.yml'
+                sh './kubectl apply -f deployment.yaml'
             }
         }
 
@@ -81,7 +81,7 @@ pipeline {
         //         sh "ls -la ${pwd()}"
         //         withKubeConfig([credentialsId: 'eks']) {
         //             // sh './kubectl get pods'
-        //             sh './kubectl apply -f deployment.yml'
+        //             sh './kubectl apply -f deployment.yaml'
         //         }
         //     }
         // }
