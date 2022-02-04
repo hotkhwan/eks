@@ -30,7 +30,7 @@ pipeline {
             parallel {
                 stage('this runs in a pod') {
                     steps {
-                        container('jenkins') {
+                        container('jenkins-agent') {
                         sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl"'  
                         sh 'chmod u+x ./kubectl'  
                         // sh 'uptime'
