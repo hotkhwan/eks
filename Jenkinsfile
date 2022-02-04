@@ -1,4 +1,11 @@
 pipeline {
+    agent {
+        kubernetes {
+        label 'jenkins'
+        }
+    }
+
+
     // agent {
     //     kubernetes {
     //     yamlFile 'build-agent.yaml'
