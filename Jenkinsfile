@@ -46,41 +46,20 @@ pipeline {
         //     }
         // }
 
-        // stage('Docker Build and Push image in to AWS') {
-        //     steps {
-        //         script {
-        //             dir("eks") {
-        //                 sh "ls -la ${pwd()}"
-        //                 sh "docker version"
-        //                 docker.withRegistry(
-        //                     "${REPOSITORY_URI}", 
-        //                     "ecr:${AWS_DEFAULT_REGION}:aws") { 
-        //                     def eksImage = docker.build("${IMAGE_REPO_NAME}")
-        //                     eksImage.push("${IMAGE_TAG}")
-        //                     echo "Build Image Success"
-        //                 } 
-        //             }
-        //         }
-        //     }
-        // }
-
         stage('Docker Build and Push image in to AWS') {
             steps {
                 script {
-                    sh script: '''
-                    #!/bin/bash
-                    cd $WORKSPACE/eks
-                    ls -la ${pwd()}
-                    '''
-                    docker version
-                    docker.withRegistry(
-                        "${REPOSITORY_URI}", 
-                        "ecr:${AWS_DEFAULT_REGION}:aws") { 
-                        def eksImage = docker.build("${IMAGE_REPO_NAME}")
-                        eksImage.push("${IMAGE_TAG}")
-                        echo "Build Image Success"
-                    
-                    } 
+                    dir("eks") {
+                        sh "ls -la ${pwd()}"
+                        sh "docker version"
+                        docker.withRegistry(
+                            "${REPOSITORY_URI}", 
+                            "ecr:${AWS_DEFAULT_REGION}:aws") { 
+                            def eksImage = docker.build("${IMAGE_REPO_NAME}")
+                            eksImage.push("${IMAGE_TAG}")
+                            echo "Build Image Success"
+                        } 
+                    }
                 }
             }
         }
