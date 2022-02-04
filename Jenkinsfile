@@ -1,18 +1,19 @@
 pipeline {
-    agent {
-        kubernetes {
-        label 'jenkins-test'
-        }
-    }
-
-
     // agent {
     //     kubernetes {
-    //     yamlFile 'build-agent.yaml'
-    //     defaultContainer 'jenkins-agent'
-    //     idleMinutes 1
+    //     label 'jenkins-test'
     //     }
     // }
+
+
+    agent {
+        kubernetes {
+        yamlFile 'build-agent.yaml'
+        defaultContainer 'jenkins-agent'
+        label 'jenkins'
+        idleMinutes 1
+        }
+    }
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
         aws_access_key_id = "AKIAVQIUZ5WAEGCJ53VJ"
