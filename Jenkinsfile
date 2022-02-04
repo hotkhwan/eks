@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-        inheritFrom  "jenkins"
+        inheritFrom  "jenkins-agent"
         }
     }
     environment {
