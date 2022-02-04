@@ -41,7 +41,7 @@ pipeline {
                     }
                 }
             }
-        }
+        // }
 
         stage('Docker Build and Push image in to AWS') {
             steps {
