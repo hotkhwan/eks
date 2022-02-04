@@ -21,9 +21,9 @@ pipeline {
                 stage('this runs in a pod') {
                     steps {
                         // container('jenkins-docker-client') {
-                        sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
-                        sh 'chmod u+x ./kubectl'  
-                        sh 'uptime'
+                        // sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+                        // sh 'chmod u+x ./kubectl'  
+                        // sh 'uptime'
                         // sh 'curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator'
                         // sh 'chmod +x ./aws-iam-authenticator'
                         // sh './aws-iam-authenticator help'
@@ -35,7 +35,7 @@ pipeline {
                         // sh "aws configure set aws_access_key_id ${aws_access_key_id}; aws configure set aws_secret_access_key ${aws_secret_access_key}; aws configure set default.region ${AWS_DEFAULT_REGION}; aws configure set output 'json'"
                         // sh 'aws sts get-caller-identity'
                         withKubeConfig([credentialsId: 'eks']) {
-                            sh './kubectl get pods'
+                            sh 'kubectl get pods'
                             }   
                         }
                     }
