@@ -1,8 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ntadmin
-  namespace: ntadmin
+  name: webapps
   labels:
     app: nuxtjs
 spec:
@@ -16,7 +15,7 @@ spec:
         app: nuxtjs
     spec:
       containers:
-      - name: ntadmin
+      - name: webapps
         image: reg.pointit.co.th/ntadmin:1.0.1
         ports:
         - containerPort: 80
@@ -32,7 +31,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ntadmin-svc
+  name: webapps-svc
 spec:
 #  externalTrafficPolicy: Local #Use For NodePort or LoadBalancer mode
   ports:
@@ -41,6 +40,6 @@ spec:
     protocol: TCP
     targetPort: http
   selector:
-    app: ntadmin
+    app: webapps
   sessionAffinity: None
   type: LoadBalancer
