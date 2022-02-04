@@ -53,30 +53,30 @@ pipeline {
         //     }
         // }
 
-        stage('Docker Build and Push image in to AWS') {
-            steps {
-                script {
-                    dir("eks") {
-                        sh "ls -la ${pwd()}"
-                        sh "docker version"
-                        docker.withRegistry(
-                            "${REPOSITORY_URI}", 
-                            "ecr:${AWS_DEFAULT_REGION}:aws") { 
-                            def eksImage = docker.build("${IMAGE_REPO_NAME}")
-                            eksImage.push("${IMAGE_TAG}")
-                            echo "Build Image Success"
-                        } 
-                    }
-                }
-            }
-        }
+        // stage('Docker Build and Push image in to AWS') {
+        //     steps {
+        //         script {
+        //             dir("eks") {
+        //                 sh "ls -la ${pwd()}"
+        //                 sh "docker version"
+        //                 docker.withRegistry(
+        //                     "${REPOSITORY_URI}", 
+        //                     "ecr:${AWS_DEFAULT_REGION}:aws") { 
+        //                     def eksImage = docker.build("${IMAGE_REPO_NAME}")
+        //                     eksImage.push("${IMAGE_TAG}")
+        //                     echo "Build Image Success"
+        //                 } 
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Deployment') {
             steps {
                 sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl"'  
                 sh 'chmod u+x ./kubectl'  
                 sh "ls -la ${pwd()}"
-                // sh './kubectl get pods'
+                sh './kubectl get pods'
                 sh './kubectl apply -f deployment.yaml'
             }
         }
