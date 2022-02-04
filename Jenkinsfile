@@ -1,11 +1,12 @@
 pipeline {
-    agent {
-        kubernetes {
-        yamlFile 'build-agent.yaml'
-        defaultContainer 'jenkins-agent'
-        idleMinutes 1
-        }
-    }
+    agent any
+    // {
+    //     kubernetes {
+    //     yamlFile 'build-agent.yaml'
+    //     defaultContainer 'jenkins-agent'
+    //     idleMinutes 1
+    //     }
+    // }
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
         aws_access_key_id = "AKIAVQIUZ5WAEGCJ53VJ"
@@ -22,7 +23,7 @@ pipeline {
             parallel {
                 stage('this runs in a pod') {
                     steps {
-                        container('jenkins-agent') {
+                        // container('jenkins-agent') {
                         sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl"'  
                         sh 'chmod u+x ./kubectl'  
                         // sh 'uptime'
@@ -42,7 +43,7 @@ pipeline {
                             sh './kubectl apply -f deployment.yaml'
                             }   
                         }
-                    }
+                    // }
                 }
             }
         }
