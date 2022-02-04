@@ -45,7 +45,7 @@ pipeline {
                         // sh "aws configure set aws_access_key_id ${aws_access_key_id}; aws configure set aws_secret_access_key ${aws_secret_access_key}; aws configure set default.region ${AWS_DEFAULT_REGION}; aws configure set output 'json'"
                         // sh 'aws sts get-caller-identity'
                         // withKubeConfig([credentialsId: 'eks']) {
-                            sh './kubectl create clusterrolebinding jenkinsrolebinding --clusterrole=cluster-admin --group=system:serviceaccounts:jenkins'
+                            // sh './kubectl create clusterrolebinding jenkinsrolebinding --clusterrole=cluster-admin --group=system:serviceaccounts:jenkins'
                             sh './kubectl get pods'
                             sh './kubectl apply -f deployment.yaml'
                             // }   

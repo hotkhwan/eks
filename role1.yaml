@@ -1,0 +1,28 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    meta.helm.sh/release-name: jenkins
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2022-02-04T14:34:07Z"
+  labels:
+    app.kubernetes.io/component: jenkins-controller
+    app.kubernetes.io/instance: jenkins
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: jenkins
+    helm.sh/chart: jenkins-3.11.3
+  name: jenkins-schedule-agents
+  namespace: default
+  resourceVersion: "1158406"
+  uid: 3e8fb63c-4460-482d-8f33-92def092e0fe
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: jenkins-schedule-agents
+subjects:
+- kind: ServiceAccount
+  name: jenkins
+  namespace: default
+- kind: ServiceAccount
+  name: default
+  namespace: default
