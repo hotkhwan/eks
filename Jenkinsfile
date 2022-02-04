@@ -38,7 +38,7 @@ pipeline {
                         // sh 'aws sts get-caller-identity'
                         // withKubeConfig([credentialsId: 'eks']) {
                             sh './kubectl apply -f deployment.yml'
-                            // sh './kubectl get pods'
+                            sh './kubectl get pods'
                             // }   
                         }
                     }
