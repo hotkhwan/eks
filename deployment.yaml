@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: webapps
   labels:
-    app: nuxtjs
+    app: webapps
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nuxtjs
+      app: webapps
   template:
     metadata:
       labels:
-        app: nuxtjs
+        app: webapps
     spec:
       containers:
       - name: webapps
