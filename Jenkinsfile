@@ -42,13 +42,14 @@ pipeline {
                         sh "ls -la ${pwd()}"
                         sh "docker version"
                         sh "docker build --network=host . -t ${IMAGE_REPO_NAME}:${IMAGE_TAG}"
-                        // docker.withRegistry(
-                        //     "${REPOSITORY_URI}", 
-                        //     "ecr:${AWS_DEFAULT_REGION}:aws") { 
-                        // //     def eksImage = docker.build("${IMAGE_REPO_NAME}")
-                        // //     eksImage.push("${IMAGE_TAG}")
-                        //     docker.push("${IMAGE_TAG}")
-                        // } 
+                        docker.withRegistry(
+                            "${REPOSITORY_URI}", 
+                            "ecr:${AWS_DEFAULT_REGION}:aws") { 
+                        //     def eksImage = docker.build("${IMAGE_REPO_NAME}")
+                        //     eksImage.push("${IMAGE_TAG}")
+                            // docker.push("${IMAGE_TAG}")
+                        } 
+                        sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
                     }
                 }
             }
@@ -62,6 +63,7 @@ pipeline {
                 sh "ls -la ${pwd()}"
                 sh './kubectl get pods'
                 sh './kubectl apply -f deployment.yaml'
+                sh './kubectl get svc'
             }
         }
     }
