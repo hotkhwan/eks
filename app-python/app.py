@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Flask inside AWS EKS CI/CD With jenkins!!"
+    return "Hello world!! This is a PyThon on AWS EKS CI/CD With jenkins!!"
 
 
 if __name__ == "__main__":

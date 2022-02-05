@@ -8,7 +8,7 @@ const HOST = '0.0.0.0';
 const app = express();
 
 app.get('/', (req, res) => {
-  res.send('Hello world AWS EKS CI/CD With jenkins!! \n');
+  res.send('Hello world This is a Nodejs on AWS EKS CI/CD With jenkins!! \n');
 });
 
 
