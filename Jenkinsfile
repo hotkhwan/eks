@@ -14,8 +14,8 @@ pipeline {
         AWS_ACCOUNT_ID = "378537635200"
         AWS_DEFAULT_REGION = "ap-southeast-1"
         IMAGE_REPO_NAME = "eks"
-        // IMAGE_TAG = "latest"
-        IMAGE_TAG = "1.0.0"
+        IMAGE_TAG = "latest"
+        // IMAGE_TAG = "1.0.0"
         REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
     }
 
