@@ -45,7 +45,6 @@ pipeline {
                             "ecr:${AWS_DEFAULT_REGION}:aws") { 
                             def eksImage = docker.build("${IMAGE_REPO_NAME}")
                             eksImage.push("${IMAGE_TAG}")
-                            echo "Build Image Success"
                         } 
                     }
                 }
