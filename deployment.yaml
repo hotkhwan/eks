@@ -18,7 +18,7 @@ spec:
       - name: webapps
         image: 378537635200.dkr.ecr.ap-southeast-1.amazonaws.com/eks:latest
         ports:
-        - containerPort: 80
+        - containerPort: 5000
 
         resources:
           limits:
@@ -36,7 +36,7 @@ spec:
 #  externalTrafficPolicy: Local #Use For NodePort or LoadBalancer mode
   ports:
   - name: http
-    port: 1880
+    port: 5000
     protocol: TCP
     targetPort: http
   selector:

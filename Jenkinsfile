@@ -14,8 +14,8 @@ pipeline {
         AWS_ACCOUNT_ID = "378537635200"
         AWS_DEFAULT_REGION = "ap-southeast-1"
         IMAGE_REPO_NAME = "eks"
-        IMAGE_TAG = "latest"
-        // IMAGE_TAG = "1.0.0"
+        // IMAGE_TAG = "latest"
+        IMAGE_TAG = "1.0.0"
         REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
     }
 
@@ -45,9 +45,6 @@ pipeline {
                         docker.withRegistry(
                             "${REPOSITORY_URI}", 
                             "ecr:${AWS_DEFAULT_REGION}:aws") { 
-                        //     def eksImage = docker.build("${IMAGE_REPO_NAME}")
-                        //     eksImage.push("${IMAGE_TAG}")
-                            // docker.push("${IMAGE_TAG}")
                             sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
                         } 
                         
