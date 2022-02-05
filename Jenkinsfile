@@ -14,9 +14,9 @@ pipeline {
         AWS_ACCOUNT_ID = "378537635200"
         AWS_DEFAULT_REGION = "ap-southeast-1"
         IMAGE_REPO_NAME = "eks"
-        DIR_APP = "app-python"   // Test Application 
+        DIR_APP = "app-nodejs"   // Test Application 
         // IMAGE_TAG = "latest"
-        IMAGE_TAG = "1.0.0"      // Change TAG To Switch Application 
+        IMAGE_TAG = "2.0.0"      // Change TAG To Switch Application 
         // REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
         REPOSITORY_NAME = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
         REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
