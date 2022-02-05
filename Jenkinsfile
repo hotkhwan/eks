@@ -61,7 +61,7 @@ pipeline {
                 sh "ls -la ${pwd()}"
                 sh './kubectl get pods'
                 // sh './kubectl apply -f deployment.yaml'
-                cat ./deployment.yaml | sed s/latest/${IMAGE_TAG}/g | ./kubectl apply -f -
+                cat ./deployment.yaml | sed s/1.0.0/${IMAGE_TAG}/g | ./kubectl apply -f -
                 sh './kubectl get svc'
             }
         }

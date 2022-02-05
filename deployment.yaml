@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: webapps
-        image: 378537635200.dkr.ecr.ap-southeast-1.amazonaws.com/eks:latest
+        image: 378537635200.dkr.ecr.ap-southeast-1.amazonaws.com/eks:1.0.0
         ports:
         - containerPort: 5000
 
