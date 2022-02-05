@@ -16,8 +16,10 @@ pipeline {
     }
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
-        aws_access_key_id = "AKIAVQIUZ5WAEGCJ53VJ"
-        aws_secret_access_key = "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"
+        // aws_access_key_id = "AKIAVQIUZ5WAEGCJ53VJ"
+        // aws_secret_access_key = "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"
+        aws_access_key_id = credentials("aws_user")
+        aws_secret_access_key = credentials("aws_pass")
         AWS_ACCOUNT_ID = "378537635200"
         AWS_DEFAULT_REGION = "ap-southeast-1"
         IMAGE_REPO_NAME = "eks"
@@ -28,7 +30,7 @@ pipeline {
     stages {
         stage('Prepare Stage') {
             parallel {
-                stage('this runs in a pod') {
+                stage('this runs in a pod to install kubectl command') {
                     steps {
                         container('jenkins-agent') {
                         sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl"'  
