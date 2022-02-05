@@ -40,9 +40,11 @@ pipeline {
         stage('Building image') {
         steps{
             script {
-            sh "docker build --network=host . -t ${REPOSITORY_NAME}/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+                dir("eks") {
+                    sh "docker build --network=host . -t ${REPOSITORY_NAME}/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+                    }
+                }
             }
-        }
         }
 
         stage('Docker Push image to AWS') {
