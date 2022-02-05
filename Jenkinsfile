@@ -1,11 +1,4 @@
 pipeline {
-    // agent {
-    //     kubernetes {
-    //     label 'jenkins-test'
-    //     }
-    // }
-
-
     agent {
         kubernetes {
         yamlFile 'build-agent.yaml'
@@ -16,8 +9,6 @@ pipeline {
     }
     environment {
         registry = "https://378537635200.dkr.ecr.ap-southeast-1.amazonaws.com"
-        // aws_access_key_id = "AKIAVQIUZ5WAEGCJ53VJ"
-        // aws_secret_access_key = "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"
         aws_access_key_id = credentials("aws_user")
         aws_secret_access_key = credentials("aws_pass")
         AWS_ACCOUNT_ID = "378537635200"
