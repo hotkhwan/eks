@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: webapps
-        image: reg.pointit.co.th/ntadmin:1.0.1
+        image: 378537635200.dkr.ecr.ap-southeast-1.amazonaws.com/eks:latest
         ports:
         - containerPort: 80
 
