@@ -40,12 +40,13 @@ pipeline {
                     dir("eks") {
                         sh "ls -la ${pwd()}"
                         sh "docker version"
-                        docker.withRegistry(
-                            "${REPOSITORY_URI}", 
-                            "ecr:${AWS_DEFAULT_REGION}:aws") { 
-                            def eksImage = docker.build("${IMAGE_REPO_NAME}")
-                            eksImage.push("${IMAGE_TAG}")
-                        } 
+                        sh "docker build . -t test"
+                        // docker.withRegistry(
+                        //     "${REPOSITORY_URI}", 
+                        //     "ecr:${AWS_DEFAULT_REGION}:aws") { 
+                        //     def eksImage = docker.build("${IMAGE_REPO_NAME}")
+                        //     eksImage.push("${IMAGE_TAG}")
+                        // } 
                     }
                 }
             }
