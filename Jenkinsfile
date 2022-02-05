@@ -36,16 +36,25 @@ pipeline {
             }
         }
 
-        stage('Docker Build and Push image in to AWS') {
+        stage('Building image') {
+        steps{
+            script {
+            sh "docker build --network=host . -t ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+            }
+        }
+        }
+
+        stage('Docker Push image to AWS') {
             steps {
                 script {
                     dir("eks") {
                         sh "ls -la ${pwd()}"
                         sh "docker version"
-                        sh "docker build --network=host . -t ${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+                        // sh "docker build --network=host . -t ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
                         docker.withRegistry(
                             "${REPOSITORY_URI}", 
                             "ecr:${AWS_DEFAULT_REGION}:aws") { 
+                                // dockerImage.push()
                             sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
                         } 
                         
