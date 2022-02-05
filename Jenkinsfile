@@ -40,7 +40,7 @@ pipeline {
                     dir("eks") {
                         sh "ls -la ${pwd()}"
                         sh "docker version"
-                        sh "docker build . -t test"
+                        sh "docker build --network=host . -t test"
                         // docker.withRegistry(
                         //     "${REPOSITORY_URI}", 
                         //     "ecr:${AWS_DEFAULT_REGION}:aws") { 
