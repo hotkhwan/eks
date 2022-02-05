@@ -19,7 +19,6 @@ spec:
         image: 378537635200.dkr.ecr.ap-southeast-1.amazonaws.com/eks:latest
         ports:
         - containerPort: 5000
-
         resources:
           limits:
             memory: 512Mi
@@ -33,12 +32,11 @@ kind: Service
 metadata:
   name: webapps-svc
 spec:
-#  externalTrafficPolicy: Local #Use For NodePort or LoadBalancer mode
   ports:
   - name: http
-    port: 5000
+    port: 80
     protocol: TCP
-    targetPort: http
+    targetPort: 5000
   selector:
     app: webapps
   sessionAffinity: None
