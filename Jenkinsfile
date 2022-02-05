@@ -17,6 +17,7 @@ pipeline {
         // IMAGE_TAG = "latest"
         IMAGE_TAG = "1.0.0"
         // REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+        REPOSITORY_NAME = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
         REPOSITORY_URI = "https://${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
     }
 
@@ -39,7 +40,7 @@ pipeline {
         stage('Building image') {
         steps{
             script {
-            sh "docker build --network=host . -t ${REPOSITORY_URI}/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+            sh "docker build --network=host . -t ${REPOSITORY_NAME}/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
             }
         }
         }
